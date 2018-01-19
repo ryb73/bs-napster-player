@@ -1,61 +1,61 @@
-type initOptions = Js.t {.
-    consumerKey: string,
-    version: string,
-    catalog: Js.undefined string,
-    player: Js.undefined string
-} [@@noserialize];
+[@noserialize]
+type initOptions = {.
+    "consumerKey": string,
+    "version": string,
+    "catalog": Js.undefined(string),
+    "player": Js.undefined(string)
+};
 
-external _init : initOptions => unit = "init" [@@bs.module "napster"];
+[@bs.module "napster"] external _init : initOptions => unit = "init";
 
-let _doInit catalog player consumerKey version => {
-    _init {
+let _doInit = (catalog, player, consumerKey, version) => {
+    _init({
         "consumerKey": consumerKey,
         "version": version,
-        "catalog": Js.Undefined.from_opt catalog,
-        "player": Js.Undefined.from_opt player
-    };
+        "catalog": Js.Undefined.from_opt(catalog),
+        "player": Js.Undefined.from_opt(player)
+    });
 
-    None;
+    None
 };
 
-let init ::catalog=? ::player=? consumerKey version => {
-    try (_doInit catalog player consumerKey version) {
-        | Js.Exn.Error e => {
-            switch (Js.Exn.message e) {
-                | Some msg => Some msg
-                | None => Some "An unknown error occurred"
-            };
-        }
+let init = (~catalog=?, ~player=?, consumerKey, version) =>
+    try (_doInit(catalog, player, consumerKey, version)) {
+        | Js.Exn.Error(e) =>
+            switch (Js.Exn.message(e)) {
+                | Some(msg) => Some(msg)
+                | None => Some("An unknown error occurred")
+            }
     };
-};
 
 type player;
-external _player : player = "player" [@@bs.module "napster"];
-external _on : player => string => 'a => unit = "on" [@@bs.send];
+[@bs.module "napster"] external _player : player = "player";
+[@bs.send] external _on : (player, string, 'a) => unit = "on";
 
 type member;
-external _member : member = "member" [@@bs.module "napster"];
+[@bs.module "napster"] external _member : member = "member";
 
-type setOptions = Js.t {.
-    accessToken: string,
-    refreshToken: string
-} [@@noserialize];
-
-external _setAuth : member => setOptions => unit = "set" [@@bs.send];
-external _signedIn : member => Js.boolean = "signedIn" [@@bs.send];
-external _load : member => Js.boolean = "load" [@@bs.send];
-
-let setAuth opts => _setAuth _member opts;
-let signedIn () => _signedIn _member;
-let load () => _load _member;
-
-type event 'a =
-    | Error : event (Js.Json.t => unit)
-    | Ready : event (unit => unit) [@@noserialize];
-
-let on (type t) (event : event t) (handler : t) => {
-    switch event {
-        | Ready => _on _player "ready" handler
-        | Error => _on _player "error" handler
-    };
+[@noserialize]
+type setOptions = {.
+    "accessToken": string,
+    "refreshToken": string
 };
+
+[@bs.send] external _setAuth : (member, setOptions) => unit = "set";
+[@bs.send] external _signedIn : member => Js.boolean = "signedIn";
+[@bs.send] external _load : member => Js.boolean = "load";
+
+let setAuth = (opts) => _setAuth(_member, opts);
+let signedIn = () => _signedIn(_member);
+let load = () => _load(_member);
+
+[@noserialize]
+type event('a) =
+    | Error: event(Js.Json.t => unit)
+    | Ready: event(unit => unit);
+
+let on = (type t, event: event(t), handler: t) =>
+    switch event {
+        | Ready => _on(_player, "ready", handler)
+        | Error => _on(_player, "error", handler)
+    };

@@ -1,14 +1,14 @@
-NapsterPlayer.init "api_key" "v2.2";
+NapsterPlayer.init("api_key", "v2.2");
 
-NapsterPlayer.setAuth {
+NapsterPlayer.setAuth({
     "accessToken": "one",
     "refreshToken": "two"
-};
-
-NapsterPlayer.signedIn ();
-
-NapsterPlayer.on Ready (fun () => ());
-
-NapsterPlayer.on Error (fun e => {
-    Js.log @@ Js.Json.decodeObject e;
 });
+
+NapsterPlayer.signedIn();
+
+NapsterPlayer.on(Ready, () => ());
+
+NapsterPlayer.on(Error, (e) =>
+    Js.log(Js.Json.decodeObject(e))
+);
