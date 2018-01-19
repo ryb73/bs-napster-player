@@ -1,5 +1,5 @@
 {
-  "name": "bs-napster",
+  "name": "bs-napster-player",
   "version": "1.0.0",
   "description": "BuckleScript bindings for Napster JS SDK",
   "main": "index.js",
@@ -15,7 +15,7 @@
   "_": [],
   "repository": {
     "type": "git",
-    "url": "git@github.com:ryb73/bs-napster.git"
+    "url": "git@github.com:ryb73/bs-napster-player.git"
   },
   "peerDependencies": {
     "bs-platform": "^2.0.0"

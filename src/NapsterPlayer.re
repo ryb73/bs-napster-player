@@ -1,7 +1,3 @@
-module Api = {
-    include Api;
-};
-
 type initOptions = Js.t {.
     consumerKey: string,
     version: string,

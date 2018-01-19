@@ -1,22 +1,14 @@
-open Js.Promise;
+NapsterPlayer.init "api_key" "v2.2";
 
-Napster.init "api_key" "v2.2";
-
-Napster.setAuth {
+NapsterPlayer.setAuth {
     "accessToken": "one",
     "refreshToken": "two"
 };
 
-Napster.signedIn ();
+NapsterPlayer.signedIn ();
 
-Napster.Api.me ()
-    |> then_ (fun data => {
-        Js.log data;
-        resolve ();
-    });
+NapsterPlayer.on Ready (fun () => ());
 
-Napster.on Ready (fun () => ());
-
-Napster.on Error (fun e => {
+NapsterPlayer.on Error (fun e => {
     Js.log @@ Js.Json.decodeObject e;
 });
