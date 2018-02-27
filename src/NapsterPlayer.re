@@ -21,11 +21,7 @@ let _doInit = (catalog, player, consumerKey, version) => {
 
 let init = (~catalog=?, ~player=?, consumerKey, version) =>
     try (_doInit(catalog, player, consumerKey, version)) {
-        | Js.Exn.Error(e) =>
-            switch (Js.Exn.message(e)) {
-                | Some(msg) => Some(msg)
-                | None => Some("An unknown error occurred")
-            }
+        | Js.Exn.Error(e) => Some(e)
     };
 
 type player;
