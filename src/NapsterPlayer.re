@@ -27,8 +27,8 @@ type player;
 [@bs.module "napster"] external _player : player = "player";
 [@bs.send] external _on : (player, string, _ => unit) => unit = "on";
 
-type member;
-[@bs.module "napster"] external _member : member = "member";
+type _member;
+[@bs.module "napster"] external _member : _member = "member";
 
 [@noserialize]
 type setOptions = {.
@@ -36,15 +36,32 @@ type setOptions = {.
     "refreshToken": string
 };
 
-[@bs.send] external _setAuth : (member, setOptions) => unit = "set";
+[@bs.send] external _setAuth : (_member, setOptions) => unit = "set";
 [@bs.send] external _auth : player => unit = "auth";
-[@bs.send] external _signedIn : member => Js.boolean = "signedIn";
-[@bs.send] external _load : member => unit = "load";
+[@bs.send] external _signedIn : _member => Js.boolean = "signedIn";
+[@bs.send] external _load : _member => unit = "load";
 
 let setAuth = (opts) => _setAuth(_member, opts);
 let auth = () => _auth(_player);
 let tokensSet = () => _signedIn(_member) |> Js.to_bool;
 let load = () => _load(_member);
+
+type _api;
+type _getResult = Js.t ({.
+  "error": string,
+  "status": int,
+  "response": Js.t({.
+      "code": string,
+      "message": string
+  })
+});
+
+[@bs.module "napster"] external _api : _api = "api";
+[@bs.send] external apiGet : _api => Js.boolean => string => (_getResult => unit) => unit = "get";
+
+let testConnection = () => {
+    apiGet(_api, Js.true_, "/me", Js.log2("apiGet"));
+};
 
 let onReady = (handler) => _on(_player, "ready", () => handler(_player));
 let onPlayStopped = (handler: unit => unit) => _on(_player, "playstopped", handler);
@@ -67,6 +84,8 @@ let onPlayEvent = (handler) => {
         code: switch (json##data##code) {
             | "PlayComplete" => PlayComplete
             | "Connected" => Connected
+            | "PlayStarted" => PlayStarted
+            | "BufferFull" => BufferFull
             | _ => failwith("Unrecognized event: " ++ json##data##code)
         },
         id: json##data##id,
@@ -95,3 +114,4 @@ let onPlaySessionExpired = (handler: Js.Json.t => unit) => _on(_player, "playses
 let onMetadata = (handler: Js.Json.t => unit) => _on(_player, "metadata", handler);
 
 [@bs.send.pipe: player] external play : string => unit = "";
+[@bs.send.pipe: player] external setVolume : float => unit = "";
