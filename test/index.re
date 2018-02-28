@@ -5,10 +5,8 @@ NapsterPlayer.setAuth({
     "refreshToken": "two"
 });
 
-NapsterPlayer.signedIn();
+NapsterPlayer.tokensSet() === true;
 
-NapsterPlayer.on(Ready, () => ());
+NapsterPlayer.onReady(NapsterPlayer.play("tra.123"));
 
-NapsterPlayer.on(Error, (e) =>
-    Js.log(Js.Json.decodeObject(e))
-);
+NapsterPlayer.onError((e) => Js.log(Js.Json.decodeObject(e)));
