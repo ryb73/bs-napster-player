@@ -46,21 +46,8 @@ let auth = () => _auth(_player);
 let tokensSet = () => _signedIn(_member) |> Js.to_bool;
 let load = () => _load(_member);
 
-type _api;
-type _getResult = Js.t ({.
-  "error": string,
-  "status": int,
-  "response": Js.t({.
-      "code": string,
-      "message": string
-  })
-});
-
-[@bs.module "napster"] external _api : _api = "api";
-[@bs.send] external apiGet : _api => Js.boolean => string => (_getResult => unit) => unit = "get";
-
 let testConnection = () => {
-    apiGet(_api, Js.true_, "/me", Js.log2("apiGet"));
+    Api.get(Js.true_, "/me", Js.log2("apiGet"));
 };
 
 let onReady = (handler) => _on(_player, "ready", () => handler(_player));

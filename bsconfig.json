@@ -2,7 +2,8 @@
     "name" : "bs-napster-player",
     "sources" : [
         {
-            "dir" : "src"
+            "dir": "src",
+            "public": [ "NapsterPlayer" ]
         },
         {
             "dir": "test",
