@@ -46,20 +46,29 @@ let auth = () => _auth(_player);
 let tokensSet = () => _signedIn(_member) |> Js.to_bool;
 let load = () => _load(_member);
 
-let testConnection = () => {
-    Api.get(Js.true_, "/me", Js.log2("apiGet"));
-};
+let testConnection = () => Bluebird.make((~resolve, ~reject as _) => {
+    Api.get(Js.true_, "/me", (res) => {
+        switch (Js.Nullable.to_opt(res##error)) {
+            | Some(error) => failwith(error)
+            | None => resolve()
+        };
+    });
+});
 
 let onReady = (handler) => _on(_player, "ready", () => handler(_player));
 let onPlayStopped = (handler: unit => unit) => _on(_player, "playstopped", handler);
 
 /* TODO: from_json ppx  */
+[@autoserialize]
 type playEventCode =
     | PlayStarted
     | BufferFull
     | PlayComplete
-    | Connected;
+    | Connected
+    | Paused
+    | Unpaused;
 
+[@autoserialize]
 type playEvent = {
     code: playEventCode,
     id: string,
@@ -73,6 +82,8 @@ let onPlayEvent = (handler) => {
             | "Connected" => Connected
             | "PlayStarted" => PlayStarted
             | "BufferFull" => BufferFull
+            | "Paused" => Paused
+            | "Unpaused" => Unpaused
             | _ => failwith("Unrecognized event: " ++ json##data##code)
         },
         id: json##data##id,
@@ -102,3 +113,5 @@ let onMetadata = (handler: Js.Json.t => unit) => _on(_player, "metadata", handle
 
 [@bs.send.pipe: player] external play : string => unit = "";
 [@bs.send.pipe: player] external setVolume : float => unit = "";
+[@bs.send.pipe: player] external seek : float => unit = "";
+[@bs.send] external pause : player => unit = "";

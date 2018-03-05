@@ -1,12 +1,12 @@
 type api;
-type getResult = Js.t ({.
-  "error": string,
+type getResult = {.
+  "error": Js.nullable(string),
   "status": int,
   "response": Js.t({.
       "code": string,
       "message": string
   })
-});
+};
 
 [@bs.module "napster"] external api : api = "api";
 [@bs.send] external _get : api => Js.boolean => string => (getResult => unit) => unit = "get";
