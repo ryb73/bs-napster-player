@@ -11,8 +11,8 @@ let _doInit = (catalog, player, consumerKey, version) => {
     _init({
         "consumerKey": consumerKey,
         "version": version,
-        "catalog": Js.Undefined.from_opt(catalog),
-        "player": Js.Undefined.from_opt(player)
+        "catalog": Js.Undefined.fromOption(catalog),
+        "player": Js.Undefined.fromOption(player)
     });
 
     None
@@ -38,17 +38,17 @@ type setOptions = {.
 
 [@bs.send] external _setAuth : (_member, setOptions) => unit = "set";
 [@bs.send] external _auth : player => unit = "auth";
-[@bs.send] external _signedIn : _member => Js.boolean = "signedIn";
+[@bs.send] external _signedIn : _member => bool = "signedIn";
 [@bs.send] external _load : _member => unit = "load";
 
 let setAuth = (opts) => _setAuth(_member, opts);
 let auth = () => _auth(_player);
-let tokensSet = () => _signedIn(_member) |> Js.to_bool;
+let tokensSet = () => _signedIn(_member);
 let load = () => _load(_member);
 
 let testConnection = () => Bluebird.make((~resolve, ~reject as _) => {
-    Api.get(Js.true_, "/me", (res) => {
-        switch (Js.Nullable.to_opt(res##error)) {
+    Api.get(true, "/me", (res) => {
+        switch (Js.Nullable.toOption(res##error)) {
             | Some(error) => failwith(error)
             | None => resolve()
         };
@@ -58,8 +58,7 @@ let testConnection = () => Bluebird.make((~resolve, ~reject as _) => {
 let onReady = (handler) => _on(_player, "ready", () => handler(_player));
 let onPlayStopped = (handler: unit => unit) => _on(_player, "playstopped", handler);
 
-/* TODO: from_json ppx  */
-[@autoserialize]
+[@decco]
 type playEventCode =
     | PlayStarted
     | BufferFull
@@ -68,7 +67,7 @@ type playEventCode =
     | Paused
     | Unpaused;
 
-[@autoserialize]
+[@decco]
 type playEvent = {
     code: playEventCode,
     id: string,
@@ -87,23 +86,19 @@ let onPlayEvent = (handler) => {
             | _ => failwith("Unrecognized event: " ++ json##data##code)
         },
         id: json##data##id,
-        paused: Js.to_bool(json##data##paused),
-        playing: Js.to_bool(json##data##playing)
+        paused: json##data##paused,
+        playing: json##data##playing
     }));
 };
 
-[@autoserialize]
+[@decco]
 type playTimerEvent = {
     currentTime: float,
     totalTime: float
 };
 let onPlayTimer = (handler) =>
     _on(_player, "playtimer", (json) => {
-        switch (playTimerEvent__from_json(json##data)) {
-            | Ok(res) => handler(res)
-            | Error(Some(msg)) => failwith("Error parsing playTimer event: " ++ msg)
-            | Error(None) => failwith("Error parsing playTimer event")
-        };
+            handler(playTimerEvent__from_json(json##data))
     });
 
 /* TODO: Below events use Js.Json.t as payload but I'm not sure what the actual format is */
