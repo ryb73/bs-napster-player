@@ -98,7 +98,7 @@ type playTimerEvent = {
 };
 let onPlayTimer = (handler) =>
     _on(_player, "playtimer", (json) => {
-        switch (playTimerEvent__from_json(json##data)) {
+        switch (playTimerEvent_decode(json##data)) {
             | Ok(v) => handler(v)
             | Error(e) => Js.log(e); Js.Exn.raiseError("Error decoding playTimerEvent")
         };
