@@ -46,7 +46,7 @@ let auth = () => _auth(_player);
 let tokensSet = () => _signedIn(_member);
 let load = () => _load(_member);
 
-let testConnection = () => Bluebird.make((~resolve, ~reject as _) => {
+let testConnection = () => Bluebird.mk((~resolve, ~reject as _) => {
     Api.get(true, "/me", (res) => {
         switch (Js.Nullable.toOption(res##error)) {
             | Some(error) => failwith(error)
