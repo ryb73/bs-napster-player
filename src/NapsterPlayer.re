@@ -46,11 +46,11 @@ let auth = () => _auth(_player);
 let tokensSet = () => _signedIn(_member);
 let load = () => _load(_member);
 
-let testConnection = () => Bluebird.mk((~resolve, ~reject as _) => {
+let testConnection = () => Reduice.Promise.make((~resolve, ~reject as _) => {
     Api.get(true, "/me", (res) => {
         switch (Js.Nullable.toOption(res##error)) {
             | Some(error) => failwith(error)
-            | None => resolve()
+            | None => let u = (); [@bs] resolve(u)
         };
     });
 });

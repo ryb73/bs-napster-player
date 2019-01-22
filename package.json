@@ -1,13 +1,14 @@
 {
   "name": "bs-napster-player",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "BuckleScript bindings for Napster JS SDK",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm run clean && bsb -make-world",
     "watch": "npm run clean && bsb -make-world -w",
-    "clean": "rm -rf lib && bsb -clean-world"
+    "clean": "rm -rf lib && bsb -clean-world",
+    "postinstall": "[ ! -f package-links.json ] || ppl link-file"
   },
   "keywords": [],
   "license": "MIT",
@@ -18,6 +19,11 @@
     "url": "git@github.com:ryb73/bs-napster-player.git"
   },
   "peerDependencies": {
-    "bs-platform": "^3.1.5"
+    "bs-platform": "^4.0.0"
+  },
+  "devDependencies": {
+    "decco": "0.0.1",
+    "napster": "2.0.0",
+    "reduice": "0.0.1"
   }
 }
