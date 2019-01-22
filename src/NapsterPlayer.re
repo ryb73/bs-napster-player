@@ -5,10 +5,10 @@ type initOptions = {.
     "player": Js.undefined(string)
 };
 
-[@bs.module "napster"] external _init : initOptions => unit = "init";
+[@bs.module "@ryb73/napster"] external init : initOptions => unit = "init";
 
-let _doInit = (catalog, player, consumerKey, version) => {
-    _init({
+let doInit = (catalog, player, consumerKey, version) => {
+    init({
         "consumerKey": consumerKey,
         "version": version,
         "catalog": Js.Undefined.fromOption(catalog),
@@ -19,16 +19,16 @@ let _doInit = (catalog, player, consumerKey, version) => {
 };
 
 let init = (~catalog=?, ~player=?, consumerKey, version) =>
-    try (_doInit(catalog, player, consumerKey, version)) {
+    try (doInit(catalog, player, consumerKey, version)) {
         | Js.Exn.Error(e) => Some(e)
     };
 
 type player;
-[@bs.module "napster"] external _player : player = "player";
-[@bs.send] external _on : (player, string, _ => unit) => unit = "on";
+[@bs.module "@ryb73/napster"] external player : player = "player";
+[@bs.send] external on : (player, string, _ => unit) => unit = "on";
 
-type _member;
-[@bs.module "napster"] external _member : _member = "member";
+type member;
+[@bs.module "@ryb73/napster"] external member : member = "member";
 
 [@noserialize]
 type setOptions = {.
@@ -36,15 +36,15 @@ type setOptions = {.
     "refreshToken": string
 };
 
-[@bs.send] external _setAuth : (_member, setOptions) => unit = "set";
-[@bs.send] external _auth : player => unit = "auth";
-[@bs.send] external _signedIn : _member => bool = "signedIn";
-[@bs.send] external _load : _member => unit = "load";
+[@bs.send] external setAuth : (member, setOptions) => unit = "set";
+[@bs.send] external auth : player => unit = "auth";
+[@bs.send] external signedIn : member => bool = "signedIn";
+[@bs.send] external load : member => unit = "load";
 
-let setAuth = (opts) => _setAuth(_member, opts);
-let auth = () => _auth(_player);
-let tokensSet = () => _signedIn(_member);
-let load = () => _load(_member);
+let setAuth = (opts) => setAuth(member, opts);
+let auth = () => auth(player);
+let tokensSet = () => signedIn(member);
+let load = () => load(member);
 
 let testConnection = () => Reduice.Promise.make((~resolve, ~reject as _) => {
     Api.get(true, "/me", (res) => {
@@ -55,8 +55,8 @@ let testConnection = () => Reduice.Promise.make((~resolve, ~reject as _) => {
     });
 });
 
-let onReady = (handler) => _on(_player, "ready", () => handler(_player));
-let onPlayStopped = (handler: unit => unit) => _on(_player, "playstopped", handler);
+let onReady = (handler) => on(player, "ready", () => handler(player));
+let onPlayStopped = (handler: unit => unit) => on(player, "playstopped", handler);
 
 [@decco]
 type playEventCode =
@@ -75,7 +75,7 @@ type playEvent = {
     playing: bool
 };
 let onPlayEvent = (handler) => {
-    _on(_player, "playevent", (json) => handler({
+    on(player, "playevent", (json) => handler({
         code: switch (json##data##code) {
             | "PlayComplete" => PlayComplete
             | "Connected" => Connected
@@ -97,7 +97,7 @@ type playTimerEvent = {
     totalTime: float
 };
 let onPlayTimer = (handler) =>
-    _on(_player, "playtimer", (json) => {
+    on(player, "playtimer", (json) => {
         switch (playTimerEvent_decode(json##data)) {
             | Ok(v) => handler(v)
             | Error(e) => Js.log(e); Js.Exn.raiseError("Error decoding playTimerEvent")
@@ -105,9 +105,9 @@ let onPlayTimer = (handler) =>
     });
 
 /* TODO: Below events use Js.Json.t as payload but I'm not sure what the actual format is */
-let onError = (handler: Js.Json.t => unit) => _on(_player, "error", handler);
-let onPlaySessionExpired = (handler: Js.Json.t => unit) => _on(_player, "playsessionexpired", handler);
-let onMetadata = (handler: Js.Json.t => unit) => _on(_player, "metadata", handler);
+let onError = (handler: Js.Json.t => unit) => on(player, "error", handler);
+let onPlaySessionExpired = (handler: Js.Json.t => unit) => on(player, "playsessionexpired", handler);
+let onMetadata = (handler: Js.Json.t => unit) => on(player, "metadata", handler);
 
 [@bs.send.pipe: player] external play : string => unit = "";
 [@bs.send.pipe: player] external setVolume : float => unit = "";

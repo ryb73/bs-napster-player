@@ -1,10 +1,10 @@
 {
-    "name" : "bs-napster-player",
+    "name": "@ryb73/bs-napster-player",
     "bs-dependencies": [
-        "reduice",
-        "decco"
+        "@ryb73/reduice",
+        "@ryb73/decco"
     ],
-    "sources" : [
+    "sources": [
         {
             "dir": "src",
             "public": [ "NapsterPlayer" ]

@@ -1,5 +1,5 @@
 {
-  "name": "bs-napster-player",
+  "name": "@ryb73/bs-napster-player",
   "version": "0.0.1",
   "description": "BuckleScript bindings for Napster JS SDK",
   "main": "index.js",
@@ -21,9 +21,9 @@
   "peerDependencies": {
     "bs-platform": "^4.0.0"
   },
-  "devDependencies": {
-    "decco": "0.0.1",
-    "napster": "2.0.0",
-    "reduice": "0.0.1"
+  "dependencies": {
+    "@ryb73/decco": "0.0.5",
+    "@ryb73/napster": "0.0.1",
+    "@ryb73/reduice": "0.0.5"
   }
 }
