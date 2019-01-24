@@ -24,6 +24,6 @@
   "dependencies": {
     "@ryb73/decco": "0.0.5",
     "@ryb73/napster": "0.0.1",
-    "@ryb73/reduice": "0.0.5"
+    "@ryb73/reduice": "0.0.6"
   }
 }
