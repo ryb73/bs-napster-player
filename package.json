@@ -10,6 +10,11 @@
     "clean": "rm -rf lib && bsb -clean-world",
     "postinstall": "[ ! -f package-links.json ] || ppl link-file"
   },
+  "files": [
+    "/bsconfig.json",
+    "/src",
+    "/lib/js/src"
+  ],
   "keywords": [],
   "license": "MIT",
   "author": "Ryan Biwer",
