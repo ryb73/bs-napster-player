@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@ryb73/bs-bluebird@0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@ryb73/bs-bluebird/-/bs-bluebird-0.0.2.tgz#cea96840d9711794888c3bce0083aee0dc5ac563"
-  integrity sha512-nILqpYSDdOwYPo30T7BEtu4/u8n0h1z2lp4TrfyKBzGhMrBVjq6agPKad9AengiTJp1EOWCDC7ocKMNwmla/rg==
+"@ryb73/bs-bluebird@0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@ryb73/bs-bluebird/-/bs-bluebird-0.0.3.tgz#99529711782aade7b8a3863120cec88f6ceaa615"
+  integrity sha512-iTQvHwrSLyZBcqUT2rW3lyUbXfrFb6KUg6dukqaVxfFkn+XJz7wd16MmmUdo0B8BfV0nl5pTfg9wg2QZeT9e1Q==
   dependencies:
     bluebird "^3.5.1"
 
@@ -21,12 +21,12 @@
   dependencies:
     jquery "^3.2.1"
 
-"@ryb73/reduice@0.0.7":
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/@ryb73/reduice/-/reduice-0.0.7.tgz#f35a85556aaddf4b828ac87065144467244d1d54"
-  integrity sha512-Id1mLU08hOndK1v8PqXNvKNxhfovp+A7vKpSBf1u1QJXKxOXx+/6YtCjIzR0IQC5RhRFSiXmD3JvYDldyOAk0A==
+"@ryb73/reduice@0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@ryb73/reduice/-/reduice-0.0.8.tgz#64f946ef45cb128d18fe105dc850a6f78890b41c"
+  integrity sha512-LLqXLwK7f/tGK+Kvo7VULvJEvbSnF3P093BOSQixfpNqPpGJgQAudp+mQgo1mYK4bfJu/dTqJOToxTPb8KORbA==
   dependencies:
-    "@ryb73/bs-bluebird" "0.0.2"
+    "@ryb73/bs-bluebird" "0.0.3"
 
 bluebird@^3.5.1:
   version "3.5.3"
