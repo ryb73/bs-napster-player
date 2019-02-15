@@ -16,7 +16,7 @@ let setAuth: setOptions => unit;
 let auth: unit => unit;
 let tokensSet: unit => bool;
 let load: unit => unit;
-let testConnection: unit => Reduice.Promise.t(unit);
+let testConnection: unit => Js.Promise.t(unit);
 
 let onReady: (player => unit) => unit;
 let onPlayStopped: (unit => unit) => unit;

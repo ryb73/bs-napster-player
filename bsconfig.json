@@ -1,8 +1,7 @@
 {
     "name": "@ryb73/bs-napster-player",
     "bs-dependencies": [
-        "@ryb73/reduice",
-        "@ryb73/decco"
+        "@ryb73/decco",
     ],
     "sources": [
         {

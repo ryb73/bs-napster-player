@@ -46,7 +46,7 @@ let auth = () => auth(player);
 let tokensSet = () => signedIn(member);
 let load = () => load(member);
 
-let testConnection = () => Reduice.Promise.make((~resolve, ~reject as _) => {
+let testConnection = () => Js.Promise.make((~resolve, ~reject as _) => {
     Api.get(true, "/me", (res) => {
         switch (Js.Nullable.toOption(res##error)) {
             | Some(error) => failwith(error)
