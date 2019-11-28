@@ -2,24 +2,24 @@
 # yarn lockfile v1
 
 
-"@ryb73/decco@0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@ryb73/decco/-/decco-0.1.0.tgz#c39e03377bebe975864bb9c2e05fe3aeb1cd090d"
-  integrity sha512-raSP6kWVYYMHWgBK9ZsjbWsuziglDC+RxQ4G5EaHDcVpDunqxqk3/pdcgpLMdAAAAVQDHBKdOCu9lrZE5y0tDg==
-
-"@ryb73/napster@0.0.2":
+"@ryb73/napster@^0.0.2":
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/@ryb73/napster/-/napster-0.0.2.tgz#c80323a2faa1f35e0d7baf482638972dad4ccce2"
   integrity sha512-ULe1cdrMYNz5L8HPJIgbLCel27m/+pqO+dxtwITUTElA4Trm898wupufDDp2p6Ft8ffPFBQ/eZSDUPBgCcVQKw==
   dependencies:
     jquery "^3.4.0"
 
-bs-platform@^5.0.6:
-  version "5.0.6"
-  resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-5.0.6.tgz#88c13041fb020479800de3d82c680bf971091425"
-  integrity sha512-6Boa2VEcWJp2WJr38L7bp3J929nYha7gDarjxb070jWzgfPJ/WbzjipmSfnu2eqqk1MfjEIpBipbPz6n1NISwA==
+bs-platform@^6.0.1:
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-6.2.1.tgz#30266c7f23a3b323e1fc9596a9a6eb9f053981b4"
+  integrity sha512-FmQ8kYV52A0Y302qh6o0/J9TO+kHzsjGQnsjrg/ONUYIY/jWzBnt9dCBO6EBnaEKfFJLqk5JrUDCxuihqtTcnw==
+
+decco@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/decco/-/decco-1.0.0.tgz#eeb95776341f74839bed0d874007b263be17499d"
+  integrity sha512-ZwTEGyQkq8QnssDoNhKaCe/AnfmIlHMsr9nGixPBzGoT0st/39SKSvKxIk+8zBiyKSM73lIhlcrCNq31Hvp5eQ==
 
 jquery@^3.4.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.4.0.tgz#8de513fa0fa4b2c7d2e48a530e26f0596936efdf"
-  integrity sha512-ggRCXln9zEqv6OqAGXFEcshF5dSBvCkzj6Gm2gzuR5fWawaX8t7cxKVkkygKODrDAzKdoYw3l/e3pm3vlT4IbQ==
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.4.1.tgz#714f1f8d9dde4bdfa55764ba37ef214630d80ef2"
+  integrity sha512-36+AdBzCL+y6qjw5Tx7HgzeGCzC81MDDgaUP8ld2zhx58HdqXGoBd+tHdrBMiyjGQs0Hxs/MLZTu/eHNJJuWPw==
