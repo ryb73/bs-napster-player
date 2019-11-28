@@ -1,7 +1,7 @@
 {
     "name": "@ryb73/bs-napster-player",
     "bs-dependencies": [
-        "@ryb73/decco",
+        "decco",
     ],
     "sources": [
         {
@@ -14,6 +14,9 @@
         }
     ],
     "refmt": 3,
-    "ppx-flags": [ "ppx_decco" ],
-    "bsc-flags": [ "-w -105", "-bs-super-errors" ]
+    "ppx-flags": [ "decco/ppx" ],
+    "warnings": {
+        "number": "+A-4-40-42-105",
+    },
+    "bsc-flags": [ "-bs-super-errors" ]
 }
